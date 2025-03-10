@@ -16,7 +16,7 @@ const DasboardDetails = () => {
       </div>
 
       <div className="py-4">
-        <div className="py-8">
+        <div className="py-4 lg:py-8">
        <ShipmentList/>
         </div>
       </div>

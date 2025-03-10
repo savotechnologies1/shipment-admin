@@ -86,7 +86,6 @@ const data = [
     price: "$150,0",
     status: "Delivered",
     total: "$16.19",
-
     paid: paid,
   },
   {

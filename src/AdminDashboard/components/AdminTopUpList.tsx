@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import data from "../../components/Data/AdminTopUpData";
-import client_icon from "../assets/client.png";
-import date_icon from "../assets/date.png";
-import status_icon from "../assets/status.png";
-import country_icon from "../assets/country.png";
-import download from "../../assets/downloadd.png";
-import { NavLink } from "react-router-dom";
 
 const AdminTopUpList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,100 +10,58 @@ const AdminTopUpList = () => {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
 
-  const goToPreviousPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
+  const goToPreviousPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+  const goToNextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
+  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
-  const goToNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const goToPage = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
   return (
-    <div className=" py- bg-white rounded-lg">
-      <div className="overflow-x-auto py-">
-        <table className="w-full  bg-white">
+    <div className="py-4 bg-white rounded-lg shadow-md">
+      <div className="overflow-x-auto">
+        <table className="w-full bg-white">
           <thead>
             <tr className="border-b bg-[#EDEDFF]">
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <div className="flex gap-4 items-center">
-                  <p> #</p>
-                </div>
-              </th>
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <div className="flex gap-4 items-center">
-                  <p> Recipient</p>
-                </div>
-              </th>
-
-              <th className="px-4 py-3 text-left text-[000]  text-lgfont-medium">
-                <div className="flex gap-4 items-center">
-                  <p>Tracking No. </p>
-                </div>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Amount COD</p>
-              </th>
-
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Shipment Status</p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Transaction Id </p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Beneficiary Bank Account </p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Payment Status </p>
-              </th>
+              {[
+                "#", "Recipient", "Tracking No.", "Amount COD", "Shipment Status",
+                "Transaction Id", "Beneficiary Bank Account", "Payment Status"
+              ].map((heading, index) => (
+                <th
+                  key={index}
+                  className="px-2 py-3 text-left text-sm sm:text-base font-medium"
+                >
+                  {heading}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {currentRows.map((item, index) => (
-              <tr key={index} className=" text-center">
-                <td className="px-4 py-4">
-                  <div className="flex gap-2">
-                    <p className="text-sm sm:text-base font- text-[#000]">
-                      {item.orderId}
-                    </p>
-                  </div>
-                </td>
-
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.recipient}
-                </td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.tracking_no}
-                </td>
-
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.price}
-                </td>
-
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.currentState}
-                </td>
-
-               
-                <td className="px-4 py-4">{item.TransactionId}</td>
-                <td className="px-4 py-4">{item.account}</td>
-                <td className="px-4 py-4">{item.paymentStatus}</td>
-
-              
+              <tr key={index} className="text-center">
+                {[
+                  item.orderId,
+                  item.recipient,
+                  item.tracking_no,
+                  item.price,
+                  item.currentState,
+                  item.TransactionId,
+                  item.account,
+                  item.paymentStatus,
+                ].map((value, idx) => (
+                  <td key={idx} className="px-2 py-4 text-sm sm:text-base">
+                    {value}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
+      {/* Pagination Controls */}
       <div className="flex justify-between items-center mt-4 p-4 border-t">
         <button
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 border border-black rounded disabled:opacity-50"
+          className="px-4 py-2 border border-black rounded disabled:opacity-50 text-sm sm:text-base"
         >
           Previous
         </button>
@@ -119,8 +71,8 @@ const AdminTopUpList = () => {
             <button
               key={i}
               onClick={() => goToPage(i + 1)}
-              className={`px-3 py-2 rounded font-semibold ${
-                currentPage === i + 1 ? "bg-[#EDEDFF] " : "bg-transparent"
+              className={`px-3 py-2 rounded font-semibold text-sm sm:text-base ${
+                currentPage === i + 1 ? "bg-[#EDEDFF]" : "bg-transparent"
               }`}
             >
               {i + 1}
@@ -131,7 +83,7 @@ const AdminTopUpList = () => {
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 border border-black rounded disabled:opacity-50"
+          className="px-4 py-2 border border-black rounded disabled:opacity-50 text-sm sm:text-base"
         >
           Next
         </button>

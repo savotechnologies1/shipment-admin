@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import data from "./Data/shipmentListData";
-import client_icon from "../assets/client.png";
-import date_icon from "../assets/date.png";
-import status_icon from "../assets/status.png";
-import country_icon from "../assets/country.png";
 import download from "../assets/downloadd.png";
 import { NavLink } from "react-router-dom";
 
@@ -27,99 +23,50 @@ const ShipmentList = () => {
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
-    <div className=" py- bg-white rounded-lg">
-      <div className="overflow-x-auto py-">
-        <table className="w-full  bg-white">
+    <div className="bg-white rounded-lg ">
+      <div className="overflow-x-auto">
+        <table className="w-full bg-white border-collapse">
           <thead>
-            <tr className="border-b bg-[#EDEDFF]">
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <div className="flex gap-4 items-center">
-                  <p> #</p>
-                </div>
+            <tr className="border-b bg-[#EDEDFF] text-xs md:text-sm lg:text-base">
+              <th className="px-3 py-2 text-left">#</th>
+              <th className="px-3 py-2 text-left">
+                <img src={download} alt="Download" className="" />
               </th>
-
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <div className="flex gap-4 items-center">
-                  <img src={download} alt="" />
-                </div>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lgfont-medium">
-                <div className="flex gap-4 items-center">
-                  <p>Service Type </p>
-                </div>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Recipient</p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <p> Tracking No. </p>
-              </th>
-
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Additional Services</p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Anomalies </p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Price </p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Current State </p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Action </p>
-              </th>
+              <th className="px-3 py-2 text-left">Service Type</th>
+              <th className="px-3 py-2 text-left">Recipient</th>
+              <th className="px-3 py-2 text-left">Tracking No.</th>
+              <th className="px-3 py-2 text-left">Additional Services</th>
+              <th className="px-3 py-2 text-left">Anomalies</th>
+              <th className="px-3 py-2 text-left">Price</th>
+              <th className="px-3 py-2 text-left">Current State</th>
+              <th className="px-3 py-2 text-left">Action</th>
             </tr>
           </thead>
           <tbody>
             {currentRows.map((item, index) => (
-              <tr key={index} className=" text-center">
-                <td className="px-4 py-4">
-                  <div className="flex gap-2">
-                    <p className="text-sm sm:text-base font- text-[#000]">
-                      {item.orderId}
-                    </p>
-                  </div>
+              <tr key={index} className="text-center border-b text-xs md:text-sm">
+                <td className="px-3 py-2">{item.orderId}</td>
+                <td className="px-3 py-2">
+                  <img src={item.pdf} alt="PDF" className="" />
                 </td>
-
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  <img src={item.pdf} alt="" />
+                <td className="px-3 py-2">{item.service}</td>
+                <td className="px-3 py-2">{item.recipient}</td>
+                <td className="px-3 py-2">{item.tracking_no}</td>
+                <td className="px-3 py-2">
+                  <p>{item.service}</p>
+                  <p>{item.addAmmount}</p>
                 </td>
-
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.service}
+                <td className="px-3 py-2 flex flex-col items-center">
+                  <img src={item.anomalies} alt="Anomalies" className="w-5 " />
+                  {item.storage}
                 </td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.recipient}
-                </td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.tracking_no}
-                </td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  <div>
-                    {" "}
-                    <p>{item.service}</p>
-                    <p>{item.addAmmount}</p>
-                  </div>
-                </td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  <div className="flex flex-col items-center">
-                    {" "}
-                    <img src={item.anomalies} alt="" />
-                    {item.storage}
-                  </div>
-                </td>
-                <td className="px-4 py-4">{item.price}</td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  {item.currentState}
-                </td>
-                <td className="px-4 py-4 text-sm sm:text-base  text-[#000]">
-                  <div className="flex  text-center items-center gap-2">
-                    <img src={item.truck}></img>
-                    <img src={item.support}></img>
-                  </div>
+                <td className="px-3 py-2">{item.price}</td>
+                <td className="px-3 py-2">{item.currentState}</td>
+                <td className="px-3 py-2 flex justify-center gap-2">
+                  <img src={item.truck} alt="Truck" className="w-5 h-5" />
+                  <img src={item.support} alt="Support" className="w-5 h-5" />
                 </td>
               </tr>
             ))}
@@ -127,22 +74,23 @@ const ShipmentList = () => {
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4 p-4 border-t">
+      {/* Pagination */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-4 p-4 border-t">
         <button
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 border border-black rounded disabled:opacity-50"
+          className="px-4 py-2 border border-black rounded disabled:opacity-50 text-xs md:text-sm"
         >
           Previous
         </button>
 
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap justify-center space-x-1 my-2 sm:my-0">
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               onClick={() => goToPage(i + 1)}
-              className={`px-3 py-2 rounded font-semibold ${
-                currentPage === i + 1 ? "bg-[#EDEDFF] " : "bg-transparent"
+              className={`px-3 py-2 rounded text-xs md:text-sm ${
+                currentPage === i + 1 ? "bg-[#213C70] text-white" : "bg-gray-200"
               }`}
             >
               {i + 1}
@@ -153,7 +101,7 @@ const ShipmentList = () => {
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 border border-black rounded disabled:opacity-50"
+          className="px-4 py-2 border border-black rounded disabled:opacity-50 text-xs md:text-sm"
         >
           Next
         </button>

@@ -11,7 +11,7 @@ const Anomalies = () => {
     <div className="p-4">
       <div className="flex  items-center gap-2">
         <img src={img} alt="" />
-        <h1 className="text-4xl font-bold text-[#213C70]">Anomalies </h1>
+        <h1 className="text-xl xl:text-4xl font-bold text-[#213C70]">Anomalies </h1>
       </div>
 
       <div className="py-4">

@@ -15,6 +15,7 @@ import logo from "../assets/logo2.png";
 import insta from "../assets/insta_iocn.png";
 import facebook from "../assets/fb_icon.png";
 import youtube from "../assets/yt_iocn.png";
+import { Layout } from "lucide-react";
 
 const Sidebar: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +54,7 @@ const Sidebar: React.FC = () => {
         key: "AddressBook",
         label: "Address Book",
         icon: address,
-        path: "dashboard/new-booking",
+        path: "dashboard/addressbook",
       },
       {
         key: "Anomalies",
@@ -137,7 +138,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="absolute left-0 lg:relative transition-all duration-300 bg-[#213C70] flex h-[872px] m-3 rounded-lg flex-col justify-between z-20">
+    <div className="  xl:relative  bg-[#213C70] flex h-[872px]  m-3 rounded-lg flex-col justify-between  fixed top-0 left-0 z-40 transition-all duration-300 ">
       <div
         className={` text-[#9DB2FF] transition-all duration-300 p-2 ${
           isOpen ? "w-72" : "w-20"
@@ -146,7 +147,7 @@ const Sidebar: React.FC = () => {
         {/* Toggle Sidebar Button */}
         <button
           onClick={toggleSideBar}
-          className="absolute top-2 -right-5 bg-white text-black shadow-lg p-3 rounded-full lg:hidden"
+          className="absolute top-2 -right-5 bg-white text-black shadow-lg p-3 rounded-full xl:hidden"
         >
           {isOpen ? <IoIosArrowBack /> : <IoIosArrowForward />}
         </button>
@@ -209,7 +210,7 @@ const Sidebar: React.FC = () => {
         {/* Logout Confirmation Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ]">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-[430px]">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-[300px] md:w-[430px]">
               <h2 className=" text-xl md:text-2xl font-bold text-black">
                 Ready to Leave?
               </h2>
@@ -237,7 +238,9 @@ const Sidebar: React.FC = () => {
       </div>
       {/* ACCOUNT SWITCHER */}
       <div>
-        <div className="flex flex-col lg:flex-row justify-center  my-4 gap-2 hidden md:flex">
+      {role !== "admin" && (
+  <div>
+        <div className="flex flex-col lg:flex-row justify-center  my-4 gap-2 hidden xl:flex">
           <button
             onClick={() => switchRole("user")}
             className={`px-3 py-1 rounded text-xs sm:text-sm ${
@@ -259,8 +262,10 @@ const Sidebar: React.FC = () => {
             Affiliate Account
           </button>
         </div>
+        </div>
+)}
 
-        <div className="p-2 flex- flex-col items-center justify-center text-center">
+        <div className="p-2 flex- flex-col items-center justify-center text-center hidden xl:flex">
           <h1 className="text-white hidden md:block md:text-lg font-semibold">
             Social Media Links
           </h1>
@@ -275,6 +280,8 @@ const Sidebar: React.FC = () => {
           </div>
         </div>
       </div>
+     
+
     </div>
   );
 };

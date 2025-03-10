@@ -26,6 +26,7 @@ import AdminTopUp from "./AdminDashboard/pages/AdminTopUp";
 import AdminCashOn from "./AdminDashboard/pages/AdminCashOn";
 import AdminUserProfile from "./AdminDashboard/pages/AdminUserProfile";
 import UserUndelivered from "./pages/UserUndelivered";
+import AddressBook from "./pages/AddressBook";
 
 const App = () => {
   const [role, setRole] = useState<string | null>(null);
@@ -62,7 +63,7 @@ const App = () => {
             />
             <Route path="shipment" element={<Shipment />} />
             <Route path="dashboard/history" element={<History />} />
-            <Route path="dashboard/new-booking" element={<NewBooking />} />
+            <Route path="dashboard/addressbook" element={<AddressBook />} />
             <Route path="dashboard/user-anomalies" element={<Anomalies />} />
             <Route path="dashboard/user-topup" element={<TopUp />} />
             <Route path="dashboard/user-profile" element={<UserProfile />} />

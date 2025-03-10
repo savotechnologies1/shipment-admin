@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import data from "../../components/Data/earningsData";
-import client_icon from "../assets/client.png";
-import date_icon from "../assets/date.png";
-import status_icon from "../assets/status.png";
-import country_icon from "../assets/country.png";
-import download from "../../assets/downloadd.png";
-import { NavLink } from "react-router-dom";
 
 const EarningList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,83 +21,54 @@ const EarningList = () => {
   const goToPage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
   return (
-    <div className=" py- bg-white rounded-lg">
-      <div className="overflow-x-auto py-">
-        <table className="w-full  bg-white">
+    <div className="bg-white rounded-lg shadow-md ">
+      <div className="overflow-x-auto">
+        <table className="w-full bg-white border-collapse">
           <thead>
-            <tr className="border-b bg-[#EDEDFF]">
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <div className="flex gap-4 items-center">
-                  <p> #</p>
-                </div>
-              </th>
-
-              <th className="px-4 py-3 text-left text-[000]  text-lgfont-medium">
-                <div className="flex gap-4 items-center">
-                  <p>Creation Date </p>
-                </div>
-              </th>
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Price Category</p>
-              </th>
-              <th className="px-4 py-3 text-left text-[000] text-lg font-medium">
-                <p> Discount Code </p>
-              </th>
-
-              <th className="px-4 py-3 text-left text-[000]  text-lg font-medium">
-                <p> Fee Earned </p>
-              </th>
+            <tr className="border-b bg-[#EDEDFF] text-left text-sm sm:text-base ">
+              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">Creation Date</th>
+              <th className="px-4 py-3">Price Category</th>
+              <th className="px-4 py-3">Discount Code</th>
+              <th className="px-4 py-3">Fee Earned</th>
             </tr>
           </thead>
           <tbody>
             {currentRows.map((item, index) => (
-              <tr key={index} className=" text-center">
-                <td className="px-4 py-6">
-                  <div className="flex gap-2">
-                    <p className="text-sm sm:text-base font- text-[#000]">
-                      {item.orderId}
-                    </p>
-                  </div>
+              <tr key={index} className="text-center border-b hover:bg-gray-100 transition">
+                <td className="px-4 py-3">{item.orderId}</td>
+                <td className="px-4 py-3 flex flex-col sm:flex-row sm:gap-2">
+                  <span>{item.date}</span>
+                  <span className="text-gray-500">{item.time}</span>
                 </td>
-
-                <td className="px-4 py-6 text-sm sm:text-base  text-[#000]">
-                  <div className="flex gap-2">
-
-                    <p>{item.date}</p>
-                  <p>  {item.time}</p>
-                  </div>
-                </td>
-                <td className="px-4 py-6 text-sm sm:text-base  text-[#000]">
-                  {item.price}
-                </td>
-                <td className="px-4 py-6 text-sm sm:text-base  text-[#000]">
-                  {item.discount}
-                </td>
-
-                <td className="px-4 py-6">{item.fee}</td>
+                <td className="px-4 py-3">{item.price}</td>
+                <td className="px-4 py-3">{item.discount}</td>
+                <td className="px-4 py-3">{item.fee}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4 p-4 border-t">
+      {/* Pagination */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-4 p-4 border-t gap-2 sm:gap-0">
         <button
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 border border-black rounded disabled:opacity-50"
+          className="px-4 py-2 border rounded disabled:opacity-50"
         >
           Previous
         </button>
 
-        <div className="flex space-x-2">
+        <div className="flex space-x-1">
           {Array.from({ length: totalPages }, (_, i) => (
             <button
               key={i}
               onClick={() => goToPage(i + 1)}
               className={`px-3 py-2 rounded font-semibold ${
-                currentPage === i + 1 ? "bg-[#EDEDFF] " : "bg-transparent"
+                currentPage === i + 1 ? "bg-[#EDEDFF] font-bold" : "bg-transparent"
               }`}
             >
               {i + 1}
@@ -114,7 +79,7 @@ const EarningList = () => {
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 border border-black rounded disabled:opacity-50"
+          className="px-4 py-2 border rounded disabled:opacity-50"
         >
           Next
         </button>

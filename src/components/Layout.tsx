@@ -5,11 +5,11 @@ import Navbar from "./Navbar";
 
 const Layout = () => {
   return (
-    <div className="flex bg-[#F8FAFF] ">
+    <div className="flex bg-[#F8FAFF] w-full">
       {/* Sidebar */}
       <Sidebar />
       {/* Main Content */}
-      <div className="flex-1  w-full  p-4">
+      <div className="flex-1  w-full  p-4 ">
         <Navbar></Navbar>
         <Outlet /> {/* Renders the child route content */}
       </div>

@@ -10,10 +10,9 @@ const AdminUserProfile = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch, // Watch for changes in form fields
+    watch,
   } = useForm();
 
-  // Watch input values dynamically
   const firstname = watch("FirstName", "");
   const lastname = watch("LastName", "");
   const email = watch("email", "");
@@ -24,19 +23,20 @@ const AdminUserProfile = () => {
   };
 
   return (
-    <div className="p-7">
+    <div className="p-4 sm:p-7">
+      {/* Header */}
       <div className="flex items-center gap-2">
-        <img src={img} alt="" />
-        <h1 className="text-4xl font-bold text-[#213C70]">User Profile</h1>
+        <img src={img} alt="User Profile" className="w-10 h-10 sm:w-14 sm:h-14" />
+        <h1 className="text-2xl sm:text-4xl font-bold text-[#213C70]">User Profile</h1>
       </div>
 
-      {/* User Info Section (Dynamically Updates) */}
-      <div className="mt-4 bg-white p-6 w-full rounded-2xl mx-auto shadow-md">
-        <div className="flex flex-col sm:flex-row items-center justify-between">
+      {/* User Info Section */}
+      <div className="mt-4 bg-white p-4 sm:p-6 w-full rounded-2xl mx-auto shadow-md">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex gap-2 items-center">
-            <img className="w-[85px]" src={profile} alt="" />
-            <div className="flex flex-col">
-              <h1 className="text-3xl font-bold">
+            <img className="w-[70px] sm:w-[85px]" src={profile} alt="Profile" />
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold">
                 {firstname || "RobertFox001"}
               </h1>
               <p className="text-[#213C70] text-sm">Admin Account</p>
@@ -45,15 +45,13 @@ const AdminUserProfile = () => {
         </div>
 
         {/* Display Live Updates */}
-        <div className="flex flex-row mt-8 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
           <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
             <p>{firstname || "First Name"}</p>
           </div>
           <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
             <p>{lastname || "Last Name"}</p>
           </div>
-        </div>
-        <div className="flex flex-row mt-8 gap-4">
           <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
             <p>{email || "Email Address"}</p>
           </div>
@@ -64,26 +62,26 @@ const AdminUserProfile = () => {
       </div>
 
       {/* Edit Profile Form */}
-      <div className="mt-8 bg-white p-6 w-full rounded-2xl mx-auto shadow-md">
-        <div className="flex flex-row gap-2 items-center mb-4">
-          <img src={edit} alt="" />
-          <p className="text-3xl font-bold">Edit Profile</p>
+      <div className="mt-8 bg-white p-4 sm:p-6 w-full rounded-2xl mx-auto shadow-md">
+        <div className="flex items-center gap-2 mb-4">
+          <img src={edit} alt="Edit" className="w-6 sm:w-8" />
+          <p className="text-2xl sm:text-3xl font-bold">Edit Profile</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* First & Last Name */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-2 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
               {...register("FirstName", { required: "First Name is required" })}
               type="text"
               placeholder="First Name"
-              className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
             />
             <input
               {...register("LastName", { required: "Last Name is required" })}
               type="text"
               placeholder="Last Name"
-              className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
             />
           </div>
 
@@ -92,18 +90,18 @@ const AdminUserProfile = () => {
             {...register("email")}
             type="email"
             placeholder="Enter Email Address"
-            className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold mb-6 placeholder-black"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold mt-4 placeholder-black"
           />
 
           {/* Password Fields */}
-          <div className="flex flex-col sm:flex-row gap-4 mt-2 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
             <input
               {...register("OldPassword", {
                 required: "Old Password is required",
               })}
               type="password"
               placeholder="Old Password"
-              className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
             />
             <input
               {...register("NewPassword", {
@@ -111,7 +109,7 @@ const AdminUserProfile = () => {
               })}
               type="password"
               placeholder="New Password"
-              className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
             />
             <input
               {...register("ConfirmNewPassword", {
@@ -119,11 +117,11 @@ const AdminUserProfile = () => {
               })}
               type="password"
               placeholder="Confirm New Password"
-              className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
             />
           </div>
 
-          <button className="mt-10 bg-[#3D5EDB] px-8 py-2 text-lg text-white rounded-md">
+          <button className="mt-6 bg-[#3D5EDB] px-6 py-3 text-lg text-white rounded-md w-full sm:w-auto">
             Save Changes
           </button>
         </form>

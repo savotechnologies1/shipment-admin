@@ -45,9 +45,9 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-[#213C70] p-4 shadow rounded-md">
+    <div className="bg-[#213C70] p-2 lg:p-4 shadow rounded-md ">
       <div className="flex items-center justify-between md:justify-between">
-        <div className="hidden md:hidden lg:flex text-xs xl:text-lg text-white font-medium gap-4 cursor-pointer">
+        <div className="hidden md:hidden lg:flex text-xs md:text-base 2xl:text-lg text-white font-medium gap-4 cursor-pointer">
           <p>Ship Now</p>
           <p>About Us</p>
           <p>Contact Us</p>
