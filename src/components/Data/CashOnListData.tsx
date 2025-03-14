@@ -82,7 +82,6 @@ const data = [
 
     anomalies: storage,
     storage: "storage",
-
     price: "$150,0",
     status: "Delivered",
     total: "$16.19",

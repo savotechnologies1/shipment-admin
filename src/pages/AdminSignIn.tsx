@@ -9,16 +9,16 @@ import logo from "../assets/logo.png";
 import password from "../assets/password_icon.png";
 import shipment1 from "../assets/shipment1.jpg";
 import yt from "../assets/yt_iocn.png";
-import useUserSignIn from "./http/useUserSignIn";
+import useAdminSignIn from "./http/useAdminSignIn";
 
-const SignIn = () => {
+const AdminSignIn = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const { mutate, isPending } = useUserSignIn();
+  const { mutate, isPending } = useAdminSignIn();
 
   const onSubmit = (data: unknown) => {
     mutate(data);
@@ -57,86 +57,69 @@ const SignIn = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 mt-4 relative items-center">
-              <div className="absolute top-2 left-2">
-                <img src={email} alt="" />
-              </div>
-              <div className="  items-center ">
-                <input
-                  type="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Invalid email format",
-                    },
-                  })}
-                  placeholder="Email"
-                  className="w-full  border-[#a2c6e9] p-3 rounded-md  text-gray-400 border pl-14"
-                />
-              </div>
+              <img src={email} className="absolute top-2 left-2" alt="" />
+
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Invalid email format",
+                  },
+                })}
+                placeholder="Email"
+                className="w-full border-[#a2c6e9] p-3 rounded-md border pl-10"
+              />
+
               {errors.email && typeof errors.email.message === "string" && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.email.message}
                 </p>
               )}
             </div>
-            <div className="flex flex-col md:flex-row gap-4 mb-2 relative">
-              <div className="absolute top-2 left-2">
-                <img src={password} alt="" />
-              </div>
-              <div className="md:w-full">
-                <div className=" items-center ">
-                  <input
-                    type="password"
-                    {...register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters",
-                      },
-                    })}
-                    placeholder="Password"
-                    className="w-full border-[#a2c6e9] p-3 rounded-md   text-gray-400 border pl-14"
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {String(errors.password.message)}
-                  </p>
-                )}
-              </div>
+            <div className="flex flex-col gap-4 relative">
+              <img src={password} className="absolute top-2 left-2" alt="" />
+
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
+                placeholder="Password"
+                className="w-full border-[#a2c6e9] p-3 rounded-md border pl-10"
+              />
+
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {String(errors.password.message)}
+                </p>
+              )}
             </div>
-            <div className="flex justify-end items-center mb-2">
-              <div className="text-right justify-center items-center">
-                <Link
-                  to="/resetpassword"
-                  className="text-sm text-[#213C70]  text-right md:text-right"
-                >
-                  Forget Password?
-                </Link>
-              </div>
+            <div className="flex justify-end items-center my-2">
+              <Link
+                to="/admin/resetpassword"
+                className="text-sm text-[#213C70]  text-right md:text-right "
+              >
+                Forget Password?
+              </Link>
             </div>
 
             <button
               type="submit"
-              className="w-full bg-[#213C70] text-white p-3 rounded-md"
+              className="w-full bg-[#213C70] text-white p-3 rounded-md  "
             >
               {isPending ? "Loading..." : "Sign In"}
             </button>
 
-            <div className="text-center mt-4">
-              Don’t have an account?
-              <a
-                href="/create-account"
-                className="text-[#213C70] ml-2 hover:underline"
-              >
-                Create Account
-              </a>
-            </div>
-            <NavLink to={"/admin/sign-in"}>
-              <div className="flex justify-center items-center bg-[#213C70] text-white w-1/2 mx-auto mt-8 p-2 rounded-md cursor-pointer">
-                Login Admin Panel
-              </div>
+            <NavLink to={"/sign-in"}>
+              <span className="flex justify-center items-center bg-[#213C70] text-white w-1/2 mx-auto mt-8 p-2 rounded-md cursor-pointer">
+                Login User Panel
+              </span>
             </NavLink>
           </form>
         </div>
@@ -165,4 +148,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default AdminSignIn;

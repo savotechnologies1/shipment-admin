@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import setting from "../assets/setting_icon.png";
-import shipment from "../assets/shipment_icon.png";
 import address from "../assets/address_iocn.png";
 import anomalies from "../assets/Anomalies_icon.png";
-import topup from "../assets/topup_icon.png";
 import cashon from "../assets/cashon_icon.png";
-import userIcon from "../assets/user_icon.png";
-import logoutIcon from "../assets/logout_icon.png";
 import earnings from "../assets/earnings_icon.png";
-import rules from "../assets/rules_icon.png";
-import logo from "../assets/logo2.png";
-import insta from "../assets/insta_iocn.png";
 import facebook from "../assets/fb_icon.png";
+import insta from "../assets/insta_iocn.png";
+import logo from "../assets/logo2.png";
+import logoutIcon from "../assets/logout_icon.png";
+import rules from "../assets/rules_icon.png";
+import shipment from "../assets/shipment_icon.png";
+import topup from "../assets/topup_icon.png";
+import userIcon from "../assets/user_icon.png";
 import youtube from "../assets/yt_iocn.png";
-import { Layout } from "lucide-react";
 
 const Sidebar: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,26 +22,29 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const userRole = localStorage.getItem("role");
   useEffect(() => {
-    const userRole = localStorage.getItem("role");
     setRole(userRole);
-  }, []);
+  }, [userRole]);
 
   const toggleSideBar = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    localStorage.removeItem("role"); // Remove role from storage
-    navigate("/sign-in"); // Redirect to sign-in page
+    localStorage.removeItem("role");
+    navigate("/sign-in");
+    window.location.reload();
   };
 
-  const switchRole = (newRole: "user" | "affiliate" | "admin") => {
-    localStorage.setItem("role", newRole);
+  const switchRole = (newRole: "user_v1" | "affiliate_v1" | "admin_v1") => {
     setRole(newRole);
+
+    if (newRole === "user_v1") navigate("/");
+    else if (newRole === "affiliate_v1") navigate("/dashboard/earnings");
+    else if (newRole === "admin_v1") navigate("/admin-dashboard");
   };
 
-  // Define menu sections based on role
   const menuSections = {
-    user: [
+    user_v1: [
       {
         key: "ShipmentList",
         label: "Shipment List",
@@ -81,7 +82,7 @@ const Sidebar: React.FC = () => {
         path: "dashboard/user-profile",
       },
     ],
-    affiliate: [
+    affiliate_v1: [
       {
         key: "Earnings",
         label: "Earnings",
@@ -102,7 +103,7 @@ const Sidebar: React.FC = () => {
       },
       { key: "Rules", label: "Rules", icon: rules, path: "dashboard/rules" },
     ],
-    admin: [
+    admin_v1: [
       {
         key: "DailyOrder",
         label: "Daily Order",
@@ -138,7 +139,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="  xl:relative  bg-[#213C70] flex h-[872px]  m-3 rounded-lg flex-col justify-between  fixed top-0 left-0 z-40 transition-all duration-300 ">
+    <div className="max-h-[100vh] pt-5 h-[100vh] overflow-y-auto  xl:relative  bg-[#213C70] flex flex-col justify-between  fixed top-0 left-0 z-40 transition-all duration-300 ">
       <div
         className={` text-[#9DB2FF] transition-all duration-300 p-2 ${
           isOpen ? "w-72" : "w-20"
@@ -153,14 +154,14 @@ const Sidebar: React.FC = () => {
         </button>
 
         {/* Logo */}
-    
-<div className="items-center justify-center flex py-2 mb-4 border-b border-[#2B4ED2]">
-  {isOpen && (
-    <NavLink to="/">
-      <img className="w-[208px] h-[60px] mt-2" src={logo} alt="Logo" />
-    </NavLink>
-  )}
-</div>
+
+        <div className="items-center justify-center flex py-2 mb-4 border-b border-[#2B4ED2]">
+          {isOpen && (
+            <NavLink to="/">
+              <img className="w-[208px] h-[60px] mt-2" src={logo} alt="Logo" />
+            </NavLink>
+          )}
+        </div>
 
         {/* Sidebar Menu */}
         <ul className="space-y-2 px-2">
@@ -238,32 +239,32 @@ const Sidebar: React.FC = () => {
       </div>
       {/* ACCOUNT SWITCHER */}
       <div>
-      {role !== "admin" && (
-  <div>
-        <div className="flex flex-col lg:flex-row justify-center  my-4 gap-2 hidden xl:flex">
-          <button
-            onClick={() => switchRole("user")}
-            className={`px-3 py-1 rounded text-xs sm:text-sm ${
-              role === "user"
-                ? "bg-[#3D5EDB] text-white"
-                : "bg-gray-300 text-black"
-            }`}
-          >
-            User Account
-          </button>
-          <button
-            onClick={() => switchRole("affiliate")}
-            className={`px-3 py-1 rounded text-xs sm:text-sm ${
-              role === "affiliate"
-                ? "bg-[#3D5EDB] text-white"
-                : "bg-gray-300 text-black"
-            }`}
-          >
-            Affiliate Account
-          </button>
-        </div>
-        </div>
-)}
+        {role !== "admin_v1" && (
+          <div>
+            <div className="flex flex-col lg:flex-row justify-center  my-4 gap-2 hidden xl:flex">
+              <button
+                onClick={() => switchRole("user_v1")}
+                className={`px-3 py-1 rounded text-xs sm:text-sm ${
+                  role === "user_v1"
+                    ? "bg-[#3D5EDB] text-white"
+                    : "bg-gray-300 text-black"
+                }`}
+              >
+                User Account
+              </button>
+              <button
+                onClick={() => switchRole("affiliate_v1")}
+                className={`px-3 py-1 rounded text-xs sm:text-sm ${
+                  role === "affiliate_v1"
+                    ? "bg-[#3D5EDB] text-white"
+                    : "bg-gray-300 text-black"
+                }`}
+              >
+                Affiliate Account
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="p-2 flex- flex-col items-center justify-center text-center hidden xl:flex">
           <h1 className="text-white hidden md:block md:text-lg font-semibold">
@@ -271,17 +272,15 @@ const Sidebar: React.FC = () => {
           </h1>
           <div className="flex flex-col md:flex-row items-center gap-4 justify-center">
             {/* Facebook */}
-          <img className="w-8  cursor-pointer" src={facebook} alt="" />
+            <img className="w-8  cursor-pointer" src={facebook} alt="" />
 
             {/* Instagram */}
-            <img className="w-8 cursor-pointer"  src={insta} alt="" />
+            <img className="w-8 cursor-pointer" src={insta} alt="" />
             {/* YouTube */}
-            <img className="w-8 cursor-pointer"  src={youtube} alt="" />
+            <img className="w-8 cursor-pointer" src={youtube} alt="" />
           </div>
         </div>
       </div>
-     
-
     </div>
   );
 };

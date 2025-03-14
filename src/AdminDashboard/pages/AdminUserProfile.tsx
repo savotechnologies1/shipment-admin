@@ -1,33 +1,25 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-import { FaCircle } from "react-icons/fa";
-import img from "../../assets/userProfile.png";
-import profile from "../../assets/profileimg.png";
 import edit from "../../assets/edit (2).png";
+import profile from "../../assets/profileimg.png";
+import img from "../../assets/userProfile.png";
+import { useAppSelector } from "../../store/typedReduxHooks";
+import useUpdateAdmin from "./http/useUpdateAdmin";
+import useUpdatePassword from "./http/useUpdatePassword";
 
 const AdminUserProfile = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
-
-  const firstname = watch("FirstName", "");
-  const lastname = watch("LastName", "");
-  const email = watch("email", "");
-  const password = watch("NewPassword", "");
-
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-  };
+  const user = useAppSelector((state) => state.user.user);
 
   return (
     <div className="p-4 sm:p-7">
-      {/* Header */}
       <div className="flex items-center gap-2">
-        <img src={img} alt="User Profile" className="w-10 h-10 sm:w-14 sm:h-14" />
-        <h1 className="text-2xl sm:text-4xl font-bold text-[#213C70]">User Profile</h1>
+        <img
+          src={img}
+          alt="User Profile"
+          className="w-10 h-10 sm:w-14 sm:h-14"
+        />
+        <h1 className="text-2xl sm:text-4xl font-bold text-[#213C70]">
+          User Profile
+        </h1>
       </div>
 
       {/* User Info Section */}
@@ -37,26 +29,19 @@ const AdminUserProfile = () => {
             <img className="w-[70px] sm:w-[85px]" src={profile} alt="Profile" />
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold">
-                {firstname || "RobertFox001"}
+                {user?.fullName || "N/A"}
               </h1>
               <p className="text-[#213C70] text-sm">Admin Account</p>
             </div>
           </div>
         </div>
 
-        {/* Display Live Updates */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
           <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
-            <p>{firstname || "First Name"}</p>
+            <p>{user?.fullName || "N/A"}</p>
           </div>
           <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
-            <p>{lastname || "Last Name"}</p>
-          </div>
-          <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
-            <p>{email || "Email Address"}</p>
-          </div>
-          <div className="border py-4 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold">
-            <p>{password || "Password"}</p>
+            <p>{user?.email || "N/A"}</p>
           </div>
         </div>
       </div>
@@ -68,64 +53,108 @@ const AdminUserProfile = () => {
           <p className="text-2xl sm:text-3xl font-bold">Edit Profile</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* First & Last Name */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              {...register("FirstName", { required: "First Name is required" })}
-              type="text"
-              placeholder="First Name"
-              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
-            />
-            <input
-              {...register("LastName", { required: "Last Name is required" })}
-              type="text"
-              placeholder="Last Name"
-              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
-            />
-          </div>
+        <GeneralInfoForm user={user} />
+        <PasswordUpdateForm />
 
-          {/* Email */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4"></div>
+      </div>
+    </div>
+  );
+};
+
+const GeneralInfoForm = ({ user }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullName: user?.fullName || "",
+      email: user?.email || "",
+    },
+  });
+
+  const { mutate, isPending } = useUpdateAdmin();
+  const onSubmit = (data) => {
+    mutate(data);
+  };
+
+  return (
+    <div className="border border-zinc-300 rounded-md p-2 px-4">
+      <span className="text-lg font-bold text-[#213C70]">
+        General Information
+      </span>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex gap-2 flex-col">
           <input
             {...register("email")}
             type="email"
             placeholder="Enter Email Address"
-            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold mt-4 placeholder-black"
+            readOnly
+            className="border py-3 px-4 opacity-50 rounded-md w-full bg-[#F9F9F9] mt-4"
           />
+          <input
+            {...register("fullName", { required: "Full Name is required" })}
+            type="text"
+            placeholder="Full Name"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+          />
+        </div>
 
-          {/* Password Fields */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-            <input
-              {...register("OldPassword", {
-                required: "Old Password is required",
-              })}
-              type="password"
-              placeholder="Old Password"
-              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
-            />
-            <input
-              {...register("NewPassword", {
-                required: "New Password is required",
-              })}
-              type="password"
-              placeholder="New Password"
-              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
-            />
-            <input
-              {...register("ConfirmNewPassword", {
-                required: "Confirm Password is required",
-              })}
-              type="password"
-              placeholder="Confirm New Password"
-              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9] font-semibold placeholder-black"
-            />
-          </div>
+        <button className="mt-4 w-full sm:w-auto bg-[#3D5EDB] p-2 text-lg text-white rounded-md hover:bg-[#213C70] transition">
+          {isPending ? "Loading..." : "Save Changes"}
+        </button>
+      </form>
+    </div>
+  );
+};
 
-          <button className="mt-6 bg-[#3D5EDB] px-6 py-3 text-lg text-white rounded-md w-full sm:w-auto">
-            Save Changes
-          </button>
-        </form>
-      </div>
+const PasswordUpdateForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate, isPending } = useUpdatePassword();
+  const onSubmit = (data) => {
+    mutate(data);
+  };
+
+  return (
+    <div className="border border-zinc-300 rounded-md mt-4 p-2 px-4">
+      <span className="text-lg font-bold text-[#213C70]">Change Password</span>
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-2">
+        <div className="flex gap-2 flex-col">
+          <input
+            {...register("oldPassword", {
+              required: "Old Password is required",
+            })}
+            type="password"
+            placeholder="Old Password"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+          />
+          <input
+            {...register("newPassword", {
+              required: "New Password is required",
+            })}
+            type="text"
+            placeholder="New Password"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+          />
+          <input
+            {...register("confirmNewPassword", {
+              required: "Confirm Password is required",
+            })}
+            type="password"
+            placeholder="Confirm New Password"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+          />
+        </div>
+        <button className="mt-4 w-full sm:w-auto bg-[#3D5EDB] p-2 text-lg text-white rounded-md hover:bg-[#213C70] transition">
+          {isPending ? "Loading..." : "Save Changes"}
+        </button>
+      </form>
     </div>
   );
 };

@@ -1,19 +1,20 @@
+import { set, useForm } from "react-hook-form";
+import { NavLink } from "react-router-dom";
+import fb from "../../assets/fb_icon.png";
+import shipment1 from "../../assets/image1.png";
+import insta from "../../assets/insta_iocn.png";
+import icon4 from "../../assets/password_icon.png";
+import yt from "../../assets/yt_iocn.png";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import icon2 from "../assets/email_icon.png";
-import facebook from "../assets/facebook.png";
-import fb from "../assets/fb_icon.png";
-import google from "../assets/google.png";
-import shipment1 from "../assets/image1.png";
-import insta from "../assets/insta_iocn.png";
-import icon4 from "../assets/password_icon.png";
-import yt from "../assets/yt_iocn.png";
-import useSendOTP from "./http/useSendOTP";
-import useResendOTP from "./http/useResendOTP";
-import useValidateOTP from "./http/useValidateOTP";
-import useResetPassword from "./http/useResetPassword";
+import icon2 from "../../assets/email_icon.png";
+import facebook from "../../assets/facebook.png";
+import google from "../../assets/google.png";
+import useSendAdminOTP from "./http/useSendAdminOTP";
+import useValidateAdminOTP from "./http/useValidateAdminOTP";
+import useAdminResetPassword from "./http/useAdminResetpassword";
+import useAdminResendOTP from "./http/useAdminResendPassword";
 
-const UserResetPasword = () => {
+const AdminResetPasword = () => {
   const [tab, setTab] = useState(0);
   const [email, setEmail] = useState("");
 
@@ -39,7 +40,7 @@ const ForgetPassword = ({
     formState: { errors },
   } = useForm();
 
-  const { mutate, isPending } = useSendOTP(setTab);
+  const { mutate, isPending } = useSendAdminOTP(setTab);
 
   const onSubmit = (data: unknown) => {
     mutate(data);
@@ -168,8 +169,8 @@ const OTP = ({ setTab, email }) => {
     formState: { errors },
   } = useForm();
 
-  const { mutate, isPending } = useValidateOTP(setTab);
-  const { mutate: resendMutate } = useResendOTP();
+  const { mutate, isPending } = useValidateAdminOTP(setTab);
+  const { mutate: resendMutate } = useAdminResendOTP();
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
 
@@ -291,7 +292,7 @@ const ResetPassword = ({
     formState: { errors },
   } = useForm();
 
-  const { mutate, isPending } = useResetPassword(setTab);
+  const { mutate, isPending } = useAdminResetPassword(setTab);
 
   const onSubmit = (data: unknown) => {
     const newData = { ...data, email };
@@ -402,4 +403,4 @@ const ResetPassword = ({
   );
 };
 
-export default UserResetPasword;
+export default AdminResetPasword;
