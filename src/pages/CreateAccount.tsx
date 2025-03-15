@@ -216,11 +216,11 @@ const SignIn = () => {
             >
               {isPending ? "Loading..." : "Sign Up"}
             </button>
-            <div className="text-center mt-4  ">
+            <div className="text-center mt-4">
               Already have an Account?
               <a
-                href="/sign-up"
-                className="text-[#213C70] border-[#213C70] border-b font-semibold "
+                href="/sign-in"
+                className="text-[#213C70] border-[#213C70] border-b font-semibold ml-1"
               >
                 Sign In
               </a>

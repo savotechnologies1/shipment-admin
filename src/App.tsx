@@ -69,17 +69,18 @@ const App = () => {
                 <Route
                   index
                   element={
-                    role === null ? (
-                      <div>Loading...</div>
+                    role === null || role === "undefined" ? (
+                      <Navigate to="/sign-in" replace />
                     ) : role === "admin_v1" ? (
-                      <Navigate to="/admin-dashboard" />
+                      <Navigate to="/admin-dashboard" replace />
                     ) : role === "user_v1" ? (
-                      <Navigate to="/shipment" />
+                      <Navigate to="/shipment" replace />
                     ) : (
-                      <Navigate to="/sign-in" />
+                      <Navigate to="/sign-in" replace />
                     )
                   }
                 />
+
                 {role && role == "user_v1" ? (
                   <>
                     <Route path="shipment" element={<Shipment />} />

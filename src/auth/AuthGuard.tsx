@@ -20,12 +20,6 @@ export function AuthGuard({ children }: Props) {
     }
   }, [isAuthorized]);
 
-  // console.log("AuthGuard:", {
-  //   isAuthorized,
-  //   token,
-  //   pathname: location.pathname,
-  // });
-
   if (checking) return <div>Loading...</div>;
 
   if (!isAuthorized && !token) {

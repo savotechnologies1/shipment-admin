@@ -122,10 +122,10 @@ const ForgetPassword = ({
             <div className="text-center mt-4  ">
               Remember Password?
               <a
-                href="/sign-up"
-                className="text-[#213C70] border-[#213C70] border-b font-semibold "
+                href="/sign-in"
+                className="text-[#213C70] border-[#213C70] border-b font-semibold ml-1"
               >
-                Log in
+                Sign In
               </a>
             </div>
           </form>

@@ -14,6 +14,7 @@ import shipment from "../assets/shipment_icon.png";
 import topup from "../assets/topup_icon.png";
 import userIcon from "../assets/user_icon.png";
 import youtube from "../assets/yt_iocn.png";
+import useUserLogout from "./http/useUserLogout";
 
 const Sidebar: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,6 +22,8 @@ const Sidebar: React.FC = () => {
   const [role, setRole] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { mutate: logout } = useUserLogout();
 
   const userRole = localStorage.getItem("role");
   useEffect(() => {
@@ -30,9 +33,7 @@ const Sidebar: React.FC = () => {
   const toggleSideBar = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    localStorage.removeItem("role");
-    navigate("/sign-in");
-    window.location.reload();
+    logout();
   };
 
   const switchRole = (newRole: "user_v1" | "affiliate_v1" | "admin_v1") => {
@@ -139,13 +140,12 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="max-h-[100vh] pt-5 h-[100vh] overflow-y-auto  xl:relative  bg-[#213C70] flex flex-col justify-between  fixed top-0 left-0 z-40 transition-all duration-300 ">
+    <div className="max-h-[100vh] h-[100vh] overflow-y-auto xl:relative  bg-[#213C70] flex flex-col justify-between fixed top-0 left-0 z-40 transition-all duration-300">
       <div
-        className={` text-[#9DB2FF] transition-all duration-300 p-2 ${
+        className={`text-[#9DB2FF] transition-all duration-300 p-2 ${
           isOpen ? "w-72" : "w-20"
         }`}
       >
-        {/* Toggle Sidebar Button */}
         <button
           onClick={toggleSideBar}
           className="absolute top-2 -right-5 bg-white text-black shadow-lg p-3 rounded-full xl:hidden"
@@ -153,9 +153,7 @@ const Sidebar: React.FC = () => {
           {isOpen ? <IoIosArrowBack /> : <IoIosArrowForward />}
         </button>
 
-        {/* Logo */}
-
-        <div className="items-center justify-center flex py-2 mb-4 border-b border-[#2B4ED2]">
+        <div className="items-center justify-center flex pb-4 mb-4 border-b border-[#2B4ED2]">
           {isOpen && (
             <NavLink to="/">
               <img className="w-[208px] h-[60px] mt-2" src={logo} alt="Logo" />
@@ -163,7 +161,6 @@ const Sidebar: React.FC = () => {
           )}
         </div>
 
-        {/* Sidebar Menu */}
         <ul className="space-y-2 px-2">
           {(menuSections[role as keyof typeof menuSections] || []).map(
             (section) => (
@@ -208,7 +205,6 @@ const Sidebar: React.FC = () => {
           </li>
         </ul>
 
-        {/* Logout Confirmation Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ]">
             <div className="bg-white p-6 rounded-lg shadow-lg w-[300px] md:w-[430px]">
@@ -236,12 +232,9 @@ const Sidebar: React.FC = () => {
             </div>
           </div>
         )}
-      </div>
-      {/* ACCOUNT SWITCHER */}
-      <div>
-        {role !== "admin_v1" && (
-          <div>
-            <div className="flex flex-col lg:flex-row justify-center  my-4 gap-2 hidden xl:flex">
+        <div className="lg:flex hidden gap-2 mt-4 mx-4  flex-col">
+          {role !== "admin_v1" && (
+            <div className="flex flex-col justify-center gap-2">
               <button
                 onClick={() => switchRole("user_v1")}
                 className={`px-3 py-1 rounded text-xs sm:text-sm ${
@@ -263,21 +256,20 @@ const Sidebar: React.FC = () => {
                 Affiliate Account
               </button>
             </div>
-          </div>
-        )}
+          )}
+          <div className="flex flex-col items-center justify-center text-center">
+            <h1 className="text-white hidden md:block md:text-lg font-semibold">
+              Social Media Links
+            </h1>
+            <div className="flex flex-col md:flex-row items-center gap-4 justify-center">
+              {/* Facebook */}
+              <img className="w-8  cursor-pointer" src={facebook} alt="" />
 
-        <div className="p-2 flex- flex-col items-center justify-center text-center hidden xl:flex">
-          <h1 className="text-white hidden md:block md:text-lg font-semibold">
-            Social Media Links
-          </h1>
-          <div className="flex flex-col md:flex-row items-center gap-4 justify-center">
-            {/* Facebook */}
-            <img className="w-8  cursor-pointer" src={facebook} alt="" />
-
-            {/* Instagram */}
-            <img className="w-8 cursor-pointer" src={insta} alt="" />
-            {/* YouTube */}
-            <img className="w-8 cursor-pointer" src={youtube} alt="" />
+              {/* Instagram */}
+              <img className="w-8 cursor-pointer" src={insta} alt="" />
+              {/* YouTube */}
+              <img className="w-8 cursor-pointer" src={youtube} alt="" />
+            </div>
           </div>
         </div>
       </div>
