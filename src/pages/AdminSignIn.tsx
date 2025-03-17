@@ -10,6 +10,7 @@ import password from "../assets/password_icon.png";
 import shipment1 from "../assets/shipment1.jpg";
 import yt from "../assets/yt_iocn.png";
 import useAdminSignIn from "./http/useAdminSignIn";
+import { MdOutlineEmail, MdPassword } from "react-icons/md";
 
 const AdminSignIn = () => {
   const {
@@ -26,38 +27,35 @@ const AdminSignIn = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen justify-between w-full bg-[#F8FAFF] ">
-      <div className="md:w-1/2 max-h-[100vh] my-10 pt-10 overflow-y-auto flex items-center justify-center relative">
+      <div className="md:w-1/2 md:max-h-[100vh] my-10 pt-10 md:overflow-y-auto flex items-center justify-center relative">
         <div className="max-w-md w-full px-8">
           <div className="text-center">
             <div className="flex items-center justify-center mb-6">
               <img className="h-[86px]" src={logo} alt="" />
             </div>
-            <h2 className="text-3xl  font-bold  text-center ">
+            <h2 className="text-3xl font-bold text-center">
               Log in to your Account
             </h2>
-            <p className="pt-2 text-base">
+            <p className="pt-2 text-sm">
               Welcome Back! Select method to log in:
             </p>
-
-            <div className="flex justify-between mt-4">
-              <div className="border px-4 py-1 rounded-md flex gap-2 cursor-pointer">
-                <img src={google} alt="" />
-                Google
-              </div>
-              <div className="border px-4 py-1 rounded-md flex gap-2  cursor-pointer">
-                <img src={facebook} alt="" />
-                Facebook
-              </div>
-            </div>
-
-            <div className="py-6 flex gap-4 justify-center items-center">
-              <p className="text-gray-600 text-sm">Or Continue With E-mail</p>
-            </div>
           </div>
+          <div className="mt-4">
+            <div className="border px-4 py-1 rounded-md flex justify-center items-center gap-2 cursor-pointer">
+              <img src={google} alt="" />
+              Google
+            </div>
 
+            <p className="text-gray-600 text-center mt-2 text-sm">
+              Or Continue With E-mail
+            </p>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 mt-4 relative items-center">
-              <img src={email} className="absolute top-2 left-2" alt="" />
+              <MdOutlineEmail
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
+              />
 
               <input
                 type="email"
@@ -69,7 +67,7 @@ const AdminSignIn = () => {
                   },
                 })}
                 placeholder="Email"
-                className="w-full border-[#a2c6e9] p-3 rounded-md border pl-10"
+                className="w-full border-[#a2c6e9] p-3 rounded-md border pl-9"
               />
 
               {errors.email && typeof errors.email.message === "string" && (
@@ -79,16 +77,15 @@ const AdminSignIn = () => {
               )}
             </div>
             <div className="flex flex-col gap-4 relative">
-              <img src={password} className="absolute top-2 left-2" alt="" />
+              <MdPassword
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
+              />
 
               <input
                 type="password"
                 {...register("password", {
                   required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters",
-                  },
                 })}
                 placeholder="Password"
                 className="w-full border-[#a2c6e9] p-3 rounded-md border pl-10"

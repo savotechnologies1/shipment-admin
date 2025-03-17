@@ -1,20 +1,19 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import icon2 from "../assets/email_icon.png";
+import { BsTelephone } from "react-icons/bs";
+import { MdOutlineEmail, MdPassword, MdPersonOutline } from "react-icons/md";
 import fb from "../assets/fb_icon.png";
 import shipment1 from "../assets/image1.png";
 import insta from "../assets/insta_iocn.png";
 import logo from "../assets/logo.png";
-import icon4 from "../assets/password_icon.png";
-import icon3 from "../assets/phone_icon.png";
-import icon1 from "../assets/profile_icon.png";
 import yt from "../assets/yt_iocn.png";
 import useUserSignUp from "./http/useUserSignUp";
-import { useState } from "react";
 
 const SignIn = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -27,91 +26,85 @@ const SignIn = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen justify-between w-full bg-[#F8FAFF] ">
-      <div className="md:w-1/2   flex items-center justify-center  relative">
-        <div className=" absolute top-6 right-0 xl:right-6 hidden lg:block"></div>
+      <div className="md:w-1/2 mt-5 flex items-center justify-center md:max-h-[95vh] md:h-[95vh] md:overflow-y-auto relative">
         <div className="max-w-md w-full px-8 mt-10 md:mt-0">
           <div className="text-center">
             <div className="flex items-center justify-center mb-6">
               <img className="w-[272px] h-[86px]" src={logo} alt="" />
             </div>
-            <h2 className="text-xl md:text-4xl  font-bold  text-center ">
+            <h2 className="text-xl md:text-4xl font-bold text-center ">
               Create Your Account
             </h2>
-            <p className="pt-2 text-xl mb-6">
-              Get Statred by Creating your new Account
+            <p className="pt-2 text-sm mb-6">
+              Get Started by Creating your new Account
             </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col md:flex-row gap-4 mb-2 relative items-center ">
-              <div className="absolute left-2 top-2 items-center  ">
-                <img src={icon1} alt="" />
-              </div>
-              <div className="md:w-full">
-                <div className="items-center ">
-                  <input
-                    type="text"
-                    {...register("name", {
-                      required: "Name is required",
-                      minLength: {
-                        value: 6,
-                        message: "",
-                      },
-                    })}
-                    placeholder="Full Name"
-                    className="w-full border-[#a2c6e9] py-3 px-10 rounded-md   text-gray-400 border "
-                  />
-                </div>
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {String(errors.name.message)}
-                  </p>
-                )}
-              </div>
+            <div className="flex flex-col mb-2 relative">
+              <MdPersonOutline
+                size={23}
+                className="absolute text-gray-400 left-2 top-3.5 items-center"
+              />
+
+              <input
+                type="text"
+                {...register("name", {
+                  required: "Full Name is required",
+                  minLength: {
+                    value: 2,
+                    message: "Full Name must be 2+ characters",
+                  },
+                })}
+                placeholder="Full Name"
+                className="w-full border-[#a2c6e9] py-3 px-9 rounded-md border"
+              />
+
+              {errors.name && (
+                <p className="text-red-500 text-sm mt-1">
+                  {String(errors.name.message)}
+                </p>
+              )}
             </div>
-            <div className="mb-4 mt-4 relative">
-              <div className="absolute left-2 top-2 items-center  ">
-                <img src={icon2} alt="" />
-              </div>
-              <div className="items-center ">
-                <input
-                  type="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Invalid email format",
-                    },
-                  })}
-                  placeholder="Email"
-                  className="w-full  border-[#a2c6e9] py-3 px-10 rounded-md  text-gray-400 border"
-                />
-              </div>
+            <div className="flex flex-col mb-2 relative">
+              <MdOutlineEmail
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
+              />
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "Invalid email format",
+                  },
+                })}
+                placeholder="Email"
+                className="w-full border-[#a2c6e9] py-3 px-9 rounded-md  border"
+              />
+
               {errors.email && typeof errors.email.message === "string" && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.email.message}
                 </p>
               )}
             </div>
-            <div className="flex flex-col md:flex-row gap-4 mb-2 relative">
-              <div className="absolute left-2 top-2 items-center  ">
-                <img src={icon3} alt="" />
-              </div>
+            <div className="flex flex-col mb-2 relative">
+              <BsTelephone
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
+              />
               <div className="md:w-full">
-                <div className=" items-center ">
-                  <input
-                    type="number"
-                    {...register("phone", {
-                      required: "number is required",
-                      minLength: {
-                        value: 6,
-                        message: "number must be at least 6 characters",
-                      },
-                    })}
-                    placeholder="Phone Number"
-                    className="w-full border-[#a2c6e9] py-3 px-10 rounded-md   text-gray-400 border"
-                  />
-                </div>
+                <input
+                  type="number"
+                  {...register("phone", {
+                    required: "Phone Number is required",
+                  })}
+                  placeholder="Phone Number"
+                  className="w-full border-[#a2c6e9] py-3 px-9 rounded-md border"
+                />
+
                 {errors.phone && (
                   <p className="text-red-500 text-sm mt-1">
                     {String(errors.phone.message)}
@@ -154,57 +147,59 @@ const SignIn = () => {
                 </p>
               )}
             </div>
-            <div className="flex flex-col md:flex-row gap-4 mb-2 relative">
-              <div className="absolute left-2 top-2 items-center  ">
-                <img src={icon4} alt="" />
-              </div>
-              <div className="md:w-full">
-                <div className=" items-center ">
-                  <input
-                    type="password"
-                    {...register("password", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters",
-                      },
-                    })}
-                    placeholder="Password"
-                    className="w-full border-[#a2c6e9] py-3 px-10 rounded-md   text-gray-400 border"
-                  />
-                </div>
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {String(errors.password.message)}
-                  </p>
-                )}
-              </div>
+            <div className="flex flex-col mb-2 relative">
+              <MdPassword
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
+              />
+
+              <input
+                type="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 8,
+                    message: "Password must be 8+ characters",
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$!])[A-Za-z\d@#$!]+$/,
+                    message:
+                      "Password must be alphanumeric with 1 special character (@, #, $, !)",
+                  },
+                })}
+                placeholder="Password"
+                className="w-full border-[#a2c6e9] py-3 px-9 rounded-md border"
+              />
+
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-1">
+                  {String(errors.password.message)}
+                </p>
+              )}
             </div>
-            <div className="flex flex-col md:flex-row gap-4 mb-2 relative">
-              <div className="absolute left-2 top-2 items-center  ">
-                <img src={icon4} alt="" />
-              </div>
-              <div className="md:w-full">
-                <div className=" items-center ">
-                  <input
-                    type="password"
-                    {...register("confirmPassword", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters",
-                      },
-                    })}
-                    placeholder="Confirm Password"
-                    className="w-full border-[#a2c6e9] py-3 px-10 rounded-md   text-gray-400 border"
-                  />
-                </div>
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {String(errors.confirmPassword.message)}
-                  </p>
-                )}
-              </div>
+            <div className="flex flex-col mb-2 relative">
+              <MdPassword
+                size={20}
+                className="absolute left-2 top-4 text-gray-400 items-center"
+              />
+              <input
+                type="text"
+                {...register("confirmPassword", {
+                  required: "Confirm Password is required",
+                  validate: (value) =>
+                    value === watch("password") ||
+                    "Confirm Password do not match",
+                })}
+                placeholder="Confirm Password"
+                className="w-full border-[#a2c6e9] py-3 px-9 rounded-md border"
+              />
+
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm mt-1">
+                  {String(errors.confirmPassword.message)}
+                </p>
+              )}
             </div>
             <div className="flex gap-2 items-center mb-2">
               <input type="checkbox" />

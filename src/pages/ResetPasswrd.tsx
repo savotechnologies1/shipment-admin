@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import icon2 from "../assets/email_icon.png";
-import facebook from "../assets/facebook.png";
+import { MdOutlineEmail, MdPassword } from "react-icons/md";
 import fb from "../assets/fb_icon.png";
-import google from "../assets/google.png";
 import shipment1 from "../assets/image1.png";
 import insta from "../assets/insta_iocn.png";
-import icon4 from "../assets/password_icon.png";
 import yt from "../assets/yt_iocn.png";
-import useSendOTP from "./http/useSendOTP";
 import useResendOTP from "./http/useResendOTP";
-import useValidateOTP from "./http/useValidateOTP";
 import useResetPassword from "./http/useResetPassword";
+import useSendOTP from "./http/useSendOTP";
+import useValidateOTP from "./http/useValidateOTP";
 
 const UserResetPasword = () => {
   const [tab, setTab] = useState(0);
@@ -54,7 +51,7 @@ const ForgetPassword = ({
             <h2 className="text-4xl  font-bold  text-center ">
               Forget Password
             </h2>
-            <p className="pt-2 text mb-4">
+            <p className="pt-2 text-sm mb-4">
               Enter your Email for the verification process, we will send 6
               digit code to your Email
             </p>
@@ -69,17 +66,12 @@ const ForgetPassword = ({
             </div> */}
           </div>
 
-          <form
-            className="flex flex-col relative"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <img
-              src={icon2}
-              className="absolute left-2 top-2.5 items-cente"
-              alt=""
-            />
-
-            <div className="mb-4 items-center">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="my-4 relative">
+              <MdOutlineEmail
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
+              />
               <input
                 type="email"
                 {...register("email", {
@@ -90,9 +82,10 @@ const ForgetPassword = ({
                   },
                 })}
                 placeholder="Email"
-                className="w-full outline-none border-[#a2c6e9] py-3 px-10 rounded-md border"
+                className="w-full outline-none border-[#a2c6e9] py-3 pl-9 rounded-md border"
               />
             </div>
+
             {errors.email && typeof errors.email.message === "string" && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.email.message}
@@ -106,20 +99,7 @@ const ForgetPassword = ({
               {isPending ? "Loading..." : "Send OTP"}
             </button>
 
-            <p className="text-center mt-2 ">Or Login With</p>
-
-            <div className="flex justify-between mt-4">
-              <div className="border px-4 py-1 rounded-md flex gap-2">
-                <img src={google} alt="" />
-                Google
-              </div>
-              <div className="border px-4 py-1 rounded-md flex gap-2 ">
-                <img src={facebook} alt="" />
-                Facebook
-              </div>
-            </div>
-
-            <div className="text-center mt-4  ">
+            <div className="text-center mt-4">
               Remember Password?
               <a
                 href="/sign-in"
@@ -131,7 +111,8 @@ const ForgetPassword = ({
           </form>
         </div>
       </div>
-      <div className="md:w-1/2   w-full items-end relative ">
+
+      <div className="md:w-1/2 w-full items-end relative ">
         <img
           src={shipment1}
           alt="Containers"
@@ -162,11 +143,7 @@ const ForgetPassword = ({
 };
 
 const OTP = ({ setTab, email }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const { mutate, isPending } = useValidateOTP(setTab);
   const { mutate: resendMutate } = useResendOTP();
@@ -205,7 +182,7 @@ const OTP = ({ setTab, email }) => {
         <div className="max-w-md w-full px-8 mt-10 md:mt-0">
           <div className="text-center">
             <h2 className="text-4xl font-bold">OTP Verification</h2>
-            <p className="pt-2 mb-4">
+            <p className="pt-2 text-sm mb-4">
               Enter the 6-digit code sent to your Email / Phone Number
             </p>
           </div>
@@ -213,12 +190,13 @@ const OTP = ({ setTab, email }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
               type="number"
+              required
               {...register("otp", { required: "OTP is required" })}
               placeholder="Enter OTP"
               className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
             />
 
-            <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center text-sm justify-center my-4">
               {timer > 0
                 ? `Time Left: 00:${timer < 10 ? `0${timer}` : timer}`
                 : ""}
@@ -288,6 +266,7 @@ const ResetPassword = ({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -304,30 +283,36 @@ const ResetPassword = ({
         <div className="max-w-lg w-full px-8 mt-10 md:mt-0">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-center">Reset Password</h2>
-            <p className="pt-2 text mb-6">
+            <p className="pt-2 text-sm mb-6">
               Enter your new password and confirm new password.
             </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4 relative">
-              <img
-                className="absolute left-2 top-2 items-center"
-                src={icon4}
-                alt=""
+              <MdPassword
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
               />
 
               <input
                 type="password"
+                required
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 6,
-                    message: "number must be at least 6 characters",
+                    value: 8,
+                    message: "Password must be 8+ characters",
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$!])[A-Za-z\d@#$!]+$/,
+                    message:
+                      "Password must be alphanumeric with 1 special character (@, #, $, !)",
                   },
                 })}
                 placeholder="New Password"
-                className="w-full border-[#a2c6e9] py-3 px-10 rounded-md   text-gray-400 border"
+                className="w-full border-[#a2c6e9] py-3 pl-9 rounded-md border"
               />
 
               {errors.password && (
@@ -337,23 +322,21 @@ const ResetPassword = ({
               )}
             </div>
             <div className="mb-4 relative">
-              <img
-                className="absolute left-2 top-2 items-center"
-                src={icon4}
-                alt=""
+              <MdPassword
+                size={20}
+                className="absolute text-gray-400 left-2 top-4 items-center"
               />
 
               <input
-                type="password"
+                type="text"
+                required
                 {...register("confirmPassword", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "password must be at least 6 characters",
-                  },
+                  required: "Confirm Password is required",
+                  validate: (value) =>
+                    value === watch("password") || "Passwords do not match",
                 })}
                 placeholder="Confirm New Password"
-                className="w-full border-[#a2c6e9] py-3 px-10 rounded-md   text-gray-400 border"
+                className="w-full border-[#a2c6e9] py-3 pl-9 rounded-md border"
               />
 
               {errors.confirm_password && (

@@ -25,6 +25,7 @@ const useUserSignUp = () => {
 
       toast.success(res.data.message);
       navigate("/");
+      window.location.reload();
     },
     onError: (res) => {
       toast.error(res.response.data.message);
