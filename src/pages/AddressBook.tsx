@@ -1,154 +1,182 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-import img from "../assets/address.png";
+import useAddAddress from "./http/useAddAddressBook";
 
 const AddressBook = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const { mutate, isPending } = useAddAddress();
+
+  const selectedType = watch("addressType", "sender");
+
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
+    mutate(data);
+    reset();
   };
 
   return (
-    <div className="p-4 md:p-7">
-      {/* Header Section */}
-      <div className="flex items-center gap-2">
-        <img src={img} alt="Address Book" className="w-8 h-8 md:w-12 md:h-12" />
-        <h1 className="text-2xl md:text-4xl font-bold text-[#213C70]">
-          Address Book
-        </h1>
+    <div className="mt-4 bg-white p-6 w-full rounded-2xl shadow-md">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <h1 className="font-bold text-xl md:text-2xl">Add Address</h1>
       </div>
 
-      {/* Card Container */}
-      <div className="mt-4 bg-white p-6 w-full rounded-2xl shadow-md">
-        {/* Title & Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <h1 className="font-bold text-xl md:text-2xl">Add Address</h1>
-          <div className="flex flex-col sm:flex-row gap-4 text-lg text-white w-full sm:w-auto">
-            <button className="bg-[#213C70] px-4 py-2 rounded-md text-sm font-medium w-full sm:w-auto">
-              Sender List
-            </button>
-            <button className="bg-[#3D5EDB] px-4 py-2 rounded-md text-sm font-medium w-full sm:w-auto">
-              Recipient List
-            </button>
+      <div className="flex gap-4 mt-4">
+        <label className="flex items-center gap-2">
+          <input
+            type="radio"
+            value="sender"
+            {...register("addressType")}
+            defaultChecked
+          />
+          <span>Sender</span>
+        </label>
+        <label className="flex items-center gap-2">
+          <input type="radio" value="recipient" {...register("addressType")} />
+          <span>Recipient</span>
+        </label>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+        <div className="mt-2">
+          <input
+            {...register("address", { required: "Address is required" })}
+            type="text"
+            placeholder="Enter Full Address"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+          />
+          {errors.address && (
+            <p className="text-red-500 text-sm">{errors.address.message}</p>
+          )}
+        </div>
+
+        {selectedType === "sender" && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div>
+                <input
+                  {...register("name", {
+                    required: "Sender Name is required",
+                  })}
+                  type="text"
+                  placeholder="Enter Sender's Full Name"
+                  className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  {...register("phone", {
+                    required: "Phone number is required",
+                  })}
+                  type="number"
+                  placeholder="Enter Sender's Phone Number"
+                  className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm">{errors.phone.message}</p>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        {selectedType === "recipient" && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div>
+                <input
+                  {...register("name", {
+                    required: "Recipient Name is required",
+                  })}
+                  type="text"
+                  placeholder="Enter Recipient's Full Name"
+                  className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  {...register("phone", {
+                    required: "Phone number is required",
+                  })}
+                  type="number"
+                  placeholder="Enter Recipient's Phone Number"
+                  className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-sm">{errors.phone.message}</p>
+                )}
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          <div>
+            <input
+              {...register("block", { required: "Required" })}
+              type="text"
+              placeholder="Enter Block/Building"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+            />
+            {errors.block && (
+              <p className="text-red-500 text-sm">{errors.block.message}</p>
+            )}
+          </div>
+          <div>
+            <input
+              {...register("floor", { required: "Required" })}
+              type="text"
+              placeholder="Enter Floor"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+            />
+            {errors.floor && (
+              <p className="text-red-500 text-sm">{errors.floor.message}</p>
+            )}
+          </div>
+          <div>
+            <input
+              {...register("unit", { required: "Required" })}
+              type="text"
+              placeholder="Enter Unit"
+              className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+            />
+            {errors.unit && (
+              <p className="text-red-500 text-sm">{errors.unit.message}</p>
+            )}
           </div>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-          {/* Address Input */}
-          <div className="mt-2">
-            <input
-              {...register("address", { required: "Address is required" })}
-              type="text"
-              placeholder="Enter Sender Address"
-              className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-            />
-            {errors.address && (
-              <p className="text-red-500 text-sm">{errors.address.message}</p>
-            )}
-          </div>
+        <div className="mt-4">
+          <input
+            {...register("email", { required: "Email is required" })}
+            type="email"
+            placeholder="Enter Email Address"
+            className="border py-3 px-4 rounded-md w-full bg-[#F9F9F9]"
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
+        </div>
 
-          {/* Grid Layout for Fields */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-            {/* Block/Building */}
-            <div>
-              <input
-                {...register("Block/Building", { required: "Required" })}
-                type="text"
-                placeholder="Block/Building"
-                className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-              />
-              {errors["Block/Building"] && (
-                <p className="text-red-500 text-sm">
-                  {errors["Block/Building"].message}
-                </p>
-              )}
-            </div>
-
-            {/* Floor */}
-            <div>
-              <input
-                {...register("Floor", { required: "Required" })}
-                type="text"
-                placeholder="Floor"
-                className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-              />
-              {errors.Floor && (
-                <p className="text-red-500 text-sm">{errors.Floor.message}</p>
-              )}
-            </div>
-
-            {/* Unit */}
-            <div>
-              <input
-                {...register("Unit", { required: "Required" })}
-                type="text"
-                placeholder="Unit"
-                className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-              />
-              {errors.Unit && (
-                <p className="text-red-500 text-sm">{errors.Unit.message}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Full Name & Phone Number */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-            <div>
-              <input
-                {...register("FullName", { required: "Full Name is required" })}
-                type="text"
-                placeholder="Sender Full Name"
-                className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-              />
-              {errors.FullName && (
-                <p className="text-red-500 text-sm">{errors.FullName.message}</p>
-              )}
-            </div>
-
-            <div>
-              <input
-                {...register("phoneNumber", {
-                  required: "Phone number is required",
-                })}
-                type="number"
-                placeholder="Sender Phone Number"
-                className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-              />
-              {errors.phoneNumber && (
-                <p className="text-red-500 text-sm">
-                  {errors.phoneNumber.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Email Address */}
-          <div className="mt-4">
-            <input
-              {...register("email")}
-              type="email"
-              placeholder="Enter Email Address"
-              className="border py-3 px-4 rounded-md w-full placeholder:text-gray-500 bg-[#F9F9F9] font-semibold"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div className="mt-6 text-center">
-            <button
-              type="submit"
-              className="bg-[#213C70] text-white px-6 py-3 rounded-md font-medium w-full sm:w-auto"
-            >
-              Save Address
-            </button>
-          </div>
-        </form>
-      </div>
+        <div className="mt-6 text-center">
+          <button
+            type="submit"
+            className="bg-[#213C70] text-white px-6 py-3 rounded-md font-medium w-full sm:w-auto"
+          >
+            {isPending ? "Saving..." : "Save Address"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -116,7 +116,7 @@ const SignIn = () => {
               Don’t have an account?
               <a
                 href="/create-account"
-                className="text-[#213C70] ml-2 hover:underline"
+                className="text-[#213C70] ml-1 hover:underline"
               >
                 Create Account
               </a>

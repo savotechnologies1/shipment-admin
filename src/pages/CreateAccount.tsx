@@ -112,41 +112,6 @@ const SignIn = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-col gap-2 mb-2">
-              <p className="text-sm text-gray-500">Select Account: </p>
-
-              <div className="flex gap-2 items-center flex-wrap">
-                {[
-                  { value: "user_v1", label: "User Dashboard" },
-                  { value: "affiliate_v1", label: "Affiliate Dashboard" },
-                  { value: "both", label: "Both" },
-                ].map((role) => (
-                  <label
-                    key={role.value}
-                    className={`flex gap-2 items-center text-[9px] p-1 rounded-md cursor-pointer border ${
-                      selectedRole === role.value
-                        ? "bg-[#213C70] text-white border-[#213C70]"
-                        : "border-gray-200"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      value={role.value}
-                      {...register("role", { required: "Role is required" })}
-                      onChange={() => setSelectedRole(role.value)}
-                      className="accent-[#213C70]"
-                    />
-                    {role.label}
-                  </label>
-                ))}
-              </div>
-
-              {errors.role && (
-                <p className="text-red-500 text-sm mt-1">
-                  {String(errors.role.message)}
-                </p>
-              )}
-            </div>
             <div className="flex flex-col mb-2 relative">
               <MdPassword
                 size={20}

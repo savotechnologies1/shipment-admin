@@ -140,7 +140,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div className="max-h-[100vh] h-[100vh] overflow-y-auto xl:relative  bg-[#213C70] flex flex-col justify-between fixed top-0 left-0 z-40 transition-all duration-300">
+    <div className="max-h-[100vh] h-[100vh] overflow-y-auto scrollbar1 xl:relative  bg-[#213C70] flex flex-col justify-between fixed top-0 left-0 z-40 transition-all duration-300">
       <div
         className={`text-[#9DB2FF] transition-all duration-300 p-2 ${
           isOpen ? "w-72" : "w-20"

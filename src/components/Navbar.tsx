@@ -5,11 +5,14 @@ import cart from "../assets/cart.png";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../store/typedReduxHooks";
+import { FaShoppingCart } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [role, setRole] = useState<string | null>(null);
-  const location = useLocation();
+  const user = useAppSelector((state: any) => state.user.user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,14 +32,13 @@ const Navbar = () => {
     setRole(newRole);
   };
 
-
   const getProfileLink = () => {
     if (role === "user") return "/dashboard/user-profile";
     if (role === "affiliate") return "/dashboard/affiliate-profile";
     if (role === "admin") return "/admin-profile";
     return "/sign-in"; // Default fallback
   };
-  
+
   const getTopUpLink = () => {
     if (role === "user") return "/dashboard/user-topup";
     if (role === "affiliate") return "/dashboard/user-topup";
@@ -45,7 +47,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-[#213C70] p-2 lg:p-4 shadow rounded-md my-4 ">
+    <div className="bg-[#213C70] border-l border-blue-700 p-2 lg:p-4 shadow">
       <div className="flex items-center justify-between md:justify-between">
         <div className="hidden md:hidden lg:flex text-xs md:text-base 2xl:text-lg text-white font-medium gap-4 cursor-pointer">
           <p>Ship Now</p>
@@ -65,21 +67,22 @@ const Navbar = () => {
           </div>
 
           <div className="flex gap-2 items-center">
-            <div>
-              {" "}
-              <NavLink to={getProfileLink()}>
-                <img src={img} alt="profile" className="w-10 cursor-pointer" />
-              </NavLink>
-            </div>
+            <NavLink to={getProfileLink()}>
+              <img
+                src={img}
+                alt="profile"
+                className="w-10 rounded-full cursor-pointer"
+              />
+            </NavLink>
 
             <div className="text-white">
               <p className="text-xs">Profile</p>
-              <p className="text-sm">RobertFox001</p>
+              <p className="text-sm">{user?.name}</p>
             </div>
           </div>
 
           <div className="hidden lg:flex items-center space-x-4">
-            <img src={cart} alt="cart" className="w-[35px] cursor-pointer" />
+            <FaShoppingCart size={30} className="text-white cursor-pointer" />
             <NavLink to={getTopUpLink()}>
               <div className="flex flex-col cursor-pointer">
                 <p className="text-lg font-medium text-white">User Credit</p>
